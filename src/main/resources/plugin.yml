@@ -1,0 +1,6 @@
+name: paperpgitems
+version: 3.6
+main: org.librazy.paperpgitem.PapeRPGItems
+depend: [NyaaCore,RPGItems]
+authors: [Librazy]
+api-version: 1.13

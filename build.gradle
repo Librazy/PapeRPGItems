@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext.majorVersion = 3
+ext.minorVersion = 6
+ext.minecraftVersion = "1.13.1"
+
+repositories {
+    mavenLocal()
+
+    jcenter()
+
+    maven {
+        name 'papermc'
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+
+    maven {
+        name 'NyaaCentral'
+        url 'https://raw.githubusercontent.com/NyaaCat/NyaaCentral/maven-repo'
+    }
+
+    maven {
+        url "http://repo.dmulloy2.net/nexus/repository/public/"
+    }
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    compile 'com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT'
+    compile('cat.nyaa:nyaacore:6.3-SNAPSHOT') {
+        transitive = false
+    }
+    compile('cat.nyaa:rpgitems:3.6-mc1.13.2-SNAPSHOT:release') {
+        transitive = false
+    }
+    compile 'org.librazy:NyaaUtilsLangChecker:2.0-SNAPSHOT'
+}
+
+String nyaaCoreLangDir = System.getenv("NYAACORE_LANG_DIR")
+
+compileJava {
+    options.compilerArgs += ["-Xplugin:NyaaUtilsLangAnnotationProcessor", "-Xlint:deprecation,unchecked,rawtypes"]
+    if (nyaaCoreLangDir != null) {
+        options.compilerArgs += ["-ALANG_DIR_ADDITIONAL_PATH=" + nyaaCoreLangDir]
+    }
+}
