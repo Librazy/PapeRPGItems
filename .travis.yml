@@ -3,9 +3,9 @@ language: java
 dist: xenial
 jdk: openjdk8
 install:
-  - export MAJOR_VERSION=`sed -n 's/^String majorVersion = \(.*\)$/\1/p' build.gradle`
-  - export MINOR_VERSION=`sed -n 's/^String minorVersion = \(.*\)$/\1/p' build.gradle`
-  - export MC_VERSION=`sed -n 's/^String minecraftVersion = "\(.*\)"$/\1/p' build.gradle`
+  - export MAJOR_VERSION=`sed -n 's/^ext.majorVersion = \(.*\)$/\1/p' build.gradle`
+  - export MINOR_VERSION=`sed -n 's/^ext.minorVersion = \(.*\)$/\1/p' build.gradle`
+  - export MC_VERSION=`sed -n 's/^ext.minecraftVersion = "\(.*\)"$/\1/p' build.gradle`
   - export FULL_VERSION_STRING=$MAJOR_VERSION.$MINOR_VERSION.$TRAVIS_BUILD_NUMBER-mc$MC_VERSION
   - |
     if [[ $TRAVIS_COMMIT_MESSAGE == *\[release\]* ]]
