@@ -1,3 +1,3 @@
-# rpgitems-ext-nyaacat
+# PapeRPGItems
 
-Some RPGItems power that requires black magic of ProtocolLib.
+RPGItems extension for Paper server. 
