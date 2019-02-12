@@ -1,6 +1,5 @@
 stage: main
 language: java
-dist: xenial
 jdk: openjdk8
 install:
   - export MAJOR_VERSION=`sed -n 's/^ext.majorVersion = \(.*\)$/\1/p' build.gradle`
