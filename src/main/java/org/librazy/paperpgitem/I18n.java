@@ -7,9 +7,9 @@ import org.librazy.nclangchecker.LangKey;
 public class I18n extends LanguageRepository {
     public static I18n instance = null;
     private final PapeRPGItems plugin;
-    private String lang = null;
+    private String lang;
 
-    public I18n(PapeRPGItems plugin, String lang) {
+    I18n(PapeRPGItems plugin, String lang) {
         instance = this;
         this.plugin = plugin;
         this.lang = lang;
@@ -26,7 +26,7 @@ public class I18n extends LanguageRepository {
     }
 
     @Override
-    protected String getLanguage() {
+    public String getLanguage() {
         return lang;
     }
 }

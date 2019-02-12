@@ -3,6 +3,7 @@ package org.librazy.paperpgitem.power.impl;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
+import think.rpgitems.I18n;
 import think.rpgitems.power.PowerMeta;
 import think.rpgitems.power.PowerProjectileLaunch;
 import think.rpgitems.power.PowerResult;
@@ -23,6 +24,6 @@ public class PowerNoBallisticDrop extends BasePower implements PowerProjectileLa
 
     @Override
     public String displayText() {
-        return null;
+        return I18n.format("power.noballisticdrop");
     }
 }

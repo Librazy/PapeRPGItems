@@ -1,6 +1,6 @@
 package org.librazy.paperpgitem;
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
@@ -8,11 +8,17 @@ import org.bukkit.plugin.UnknownDependencyException;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.librazy.nclangchecker.LangKey;
 import org.librazy.paperpgitem.power.PowerJump;
-import think.rpgitems.power.*;
+import think.rpgitems.RPGItems;
+import think.rpgitems.power.PowerManager;
+import think.rpgitems.power.PowerPlain;
+import think.rpgitems.power.Trigger;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.logging.Logger;
 
 import static org.librazy.paperpgitem.PaperTriggers.PAPER_JUMP;
+import static org.librazy.paperpgitem.PaperTriggers.PAPER_KNOCKBACK;
 
 public final class PapeRPGItems extends JavaPlugin {
 
@@ -26,6 +32,7 @@ public final class PapeRPGItems extends JavaPlugin {
     public void onLoad() {
         plugin = this;
         logger = plugin.getLogger();
+        new I18n(this, "en_US");
         try {
             Class.forName("com.destroystokyo.paper.PaperConfig");
         } catch (ClassNotFoundException e) {
@@ -39,10 +46,12 @@ public final class PapeRPGItems extends JavaPlugin {
         }
         super.onLoad();
         Trigger.register(PAPER_JUMP);
+        Trigger.register(PAPER_KNOCKBACK);
 
-        PowerManager.registAdapter(PowerPlain.class, PowerJump.class, PlainJumpDelegatePower::new);
+        PowerManager.registerAdapter(PowerPlain.class, PowerJump.class, p -> getWrapper(p, PowerJump.class));
 
         PowerManager.registerPowers(this, "org.librazy.paperpgitem.power");
+        PowerManager.registerOverride(new NamespacedKey(RPGItems.plugin, "deflect"), new NamespacedKey(PapeRPGItems.plugin, "deflect"));
         PowerManager.addDescriptionResolver(this, (power, property) -> {
             if (property == null) {
                 @LangKey(skipCheck = true) String powerKey = "power.properties." + power.getKey() + ".main_description";
@@ -72,7 +81,6 @@ public final class PapeRPGItems extends JavaPlugin {
             this.setEnabled(false);
             return;
         }
-        new I18n(this, "en_US");
         getServer().getPluginManager().registerEvents(eventlistener = new EventListener(), this);
     }
 
@@ -84,14 +92,14 @@ public final class PapeRPGItems extends JavaPlugin {
         logger = null;
     }
 
-    class PlainJumpDelegatePower extends DelegatePower<PowerPlain> implements PowerJump {
-        PlainJumpDelegatePower(PowerPlain instance) {
-            super(instance);
-        }
-
-        @Override
-        public PowerResult<Void> jump(Player player, ItemStack stack, PlayerJumpEvent event) {
-            return getInstance().fire(player, stack);
-        }
+    public static <T> T getWrapper(final PowerPlain obj, final Class<T> intface) {
+        InvocationHandler invocationHandler = (proxy, method, args) -> {
+            if (!method.getName().equals("jump")) {
+                return obj.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(obj, args);
+            } else {
+                return obj.getClass().getDeclaredMethod("fire", Player.class, ItemStack.class).invoke(obj, args[0], args[1]);
+            }
+        };
+        return (T) Proxy.newProxyInstance(obj.getClass().getClassLoader(), new Class[]{intface}, invocationHandler);
     }
 }
