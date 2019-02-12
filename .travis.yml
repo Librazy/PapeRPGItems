@@ -15,7 +15,6 @@ install:
   - |
     if [ "$TRAVIS_BRANCH" != "$MC_VERSION" ]; then
       export MAIN_BRANCH=false
-      if ! [[ $RELEASING && $PUBLISH_MAVEN ]]; then exit 0; fi
     else
       export MAIN_BRANCH=true
     fi
