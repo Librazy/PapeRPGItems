@@ -49,7 +49,7 @@ deploy:
   skip_cleanup: true
   provider: releases
   prerelease: true
-  api_key: $GITHUB_KEY
+  api_key: $DEPLOY_KEY
   file: './paperpgitems-$FULL_VERSION_STRING.jar'
   body: 'PapeRPGItems build $TRAVIS_BUILD_NUMBER for paper $TRAVIS_BRANCH'
   on:

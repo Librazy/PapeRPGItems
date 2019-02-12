@@ -1,0 +1,10 @@
+power:
+  newtonsthird: 击退击退你的敌人
+  noballisticdrop: 你的弹射物没有弹道下坠
+  properties:
+    newtonsthird:
+      main_name: 牛顿第三定律
+      factor: 敌人的击退系数，百分比
+      selfFactor: 自己的击退系数，百分比
+    noballisticdrop:
+      main_name: 无弹道下坠

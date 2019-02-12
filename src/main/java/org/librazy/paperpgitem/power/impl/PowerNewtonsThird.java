@@ -29,10 +29,10 @@ public class PowerNewtonsThird extends BasePower implements PowerKnockback {
     public int cost = 0;
 
     @Property
-    public double selfFactor = 0.5;
+    public double selfFactor = 50;
 
     @Property
-    public double factor = 0.5;
+    public double factor = 50;
 
     @Override
     public PowerResult<Void> knockback(Player player, ItemStack stack, EntityKnockbackByEntityEvent event) {
@@ -42,8 +42,8 @@ public class PowerNewtonsThird extends BasePower implements PowerKnockback {
         Entity hitBy = event.getHitBy();
         if (hitBy instanceof Projectile) return PowerResult.noop();
         Vector acceleration = event.getAcceleration();
-        hitBy.setVelocity(hitBy.getVelocity().subtract(acceleration.clone().multiply(factor)));
-        acceleration.multiply(selfFactor);
+        hitBy.setVelocity(hitBy.getVelocity().subtract(acceleration.clone().multiply(factor / 100.0)));
+        acceleration.multiply(selfFactor / 100.0);
         return PowerResult.ok();
     }
 

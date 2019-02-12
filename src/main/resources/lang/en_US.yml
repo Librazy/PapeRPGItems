@@ -1,0 +1,10 @@
+power:
+  newtonsthird: Knockback enemy knockbacking you.
+  noballisticdrop: Your projectile will not affect by gravity.
+  properties:
+    newtonsthird:
+      main_name: Newton's Third Law
+      factor: Strength of enemy's knockback. In percentage.
+      selfFactor: Strength of your knockback. In percentage.
+    noballisticdrop:
+      main_name: No Ballistic Drop
